@@ -121,12 +121,13 @@ button:hover {
 
 </div>
 
+<!--
 <div id="endModal" class="modal hidden">
   <div class="modal-content">
     🎉 水果大師 🎉
   </div>
 </div>
-
+-->
 <script>
 const fruits = [
   {name:"芒果", emoji:"🥭", pinyin:"máng guǒ", zhuyin:"ㄇㄤˊ ㄍㄨㄛˇ"},
@@ -149,7 +150,7 @@ function startGame(){
   gameStarted = true;
   completed = 0;
   document.getElementById("gameArea").classList.remove("hidden");
-  document.getElementById("endModal").classList.add("hidden");
+  //document.getElementById("endModal").classList.add("hidden");
   newOrder();
 }
 
@@ -157,23 +158,28 @@ function newOrder(){
   if(!gameStarted) return;
 
   if(completed >= 10){
-    document.getElementById("endModal").classList.remove("hidden");
+    alert("🎉 水果大師 🎉");
+    gameStarted = false;
     return;
   }
 
   selectedCount = 0;
 
   currentFruit = fruits[Math.floor(Math.random()*fruits.length)];
-  targetCount = Math.floor(Math.random()*3)+1;
+  targetCount = Math.floor(Math.random()*4)+1;
 
   const sentence = `我想要${numberMap[targetCount]}個 (${targetCount})${currentFruit.name}
-(wǒ xiǎng yào ${currentFruit.pinyin})
+(wǒ xiǎng yào ${numberMapPinyin(targetCount)} ge ${currentFruit.pinyin})
 (ㄨㄛˇ ㄒㄧㄤˇ ㄧㄠˋ ${numberMapZhuyin(targetCount)} ㄍㄜˋ ${currentFruit.zhuyin})`;
 
   document.getElementById("orderText").innerText = sentence;
   updateSelection();
 }
 
+function numberMapPinyin(n){
+  return {1:"yi",2:"liǎngˇ",3:"sān"}[n];
+}
+  
 function numberMapZhuyin(n){
   return {1:"ㄧ",2:"ㄌㄧㄤˇ",3:"ㄙㄢ"}[n];
 }
