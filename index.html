@@ -103,7 +103,10 @@ button:hover {
 
 <h1>🍎 水果店學中文 🍌</h1>
 
-<div class="container">
+<!-- 開始按鈕 -->
+<button onclick="startGame()">開始遊戲</button>
+
+<div class="container hidden" id="gameArea">
 
   <div id="orderPopup" class="popup">
     <p id="orderText"></p>
@@ -138,12 +141,21 @@ let currentFruit;
 let targetCount;
 let selectedCount = 0;
 let completed = 0;
+let gameStarted = false;
 
-const numberMap = {
- 1:"一",2:"兩",3:"三"
-};
+const numberMap = {1:"一",2:"兩",3:"三"};
+
+function startGame(){
+  gameStarted = true;
+  completed = 0;
+  document.getElementById("gameArea").classList.remove("hidden");
+  document.getElementById("endModal").classList.add("hidden");
+  newOrder();
+}
 
 function newOrder(){
+  if(!gameStarted) return;
+
   if(completed >= 10){
     document.getElementById("endModal").classList.remove("hidden");
     return;
@@ -155,18 +167,15 @@ function newOrder(){
   targetCount = Math.floor(Math.random()*3)+1;
 
   const sentence = `我想要${numberMap[targetCount]}個 (${targetCount})${currentFruit.name}
-  (${ "wǒ xiǎng yào " + currentFruit.pinyin })
-  (${ "ㄨㄛˇ ㄒㄧㄤˇ ㄧㄠˋ " + numberMapZhuyin(targetCount) + " ㄍㄜˋ " + currentFruit.zhuyin })`;
+(wǒ xiǎng yào ${currentFruit.pinyin})
+(ㄨㄛˇ ㄒㄧㄤˇ ㄧㄠˋ ${numberMapZhuyin(targetCount)} ㄍㄜˋ ${currentFruit.zhuyin})`;
 
   document.getElementById("orderText").innerText = sentence;
-
   updateSelection();
 }
 
 function numberMapZhuyin(n){
-  return {
-   1:"ㄧ",2:"ㄌㄧㄤˇ",3:"ㄙㄢ"
-  }[n];
+  return {1:"ㄧ",2:"ㄌㄧㄤˇ",3:"ㄙㄢ"}[n];
 }
 
 function createFruits(){
@@ -215,13 +224,10 @@ function clearSelection(){
 function showAngry(){
   const angry = document.getElementById("angry");
   angry.classList.remove("hidden");
-  setTimeout(()=>{
-    angry.classList.add("hidden");
-  },1000);
+  setTimeout(()=>angry.classList.add("hidden"),1000);
 }
 
 createFruits();
-newOrder();
 </script>
 
 </body>
