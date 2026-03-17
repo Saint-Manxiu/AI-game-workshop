@@ -59,7 +59,7 @@ button:hover {
 
 .popup {
   position: fixed;
-  top: 20%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -20%);
   background: white;
@@ -135,7 +135,7 @@ const fruits = [
   {name:"蘋果", emoji:"🍎", pinyin:"píng guǒ", zhuyin:"ㄆㄧㄥˊ ㄍㄨㄛˇ"},
   {name:"香蕉", emoji:"🍌", pinyin:"xiāng jiāo", zhuyin:"ㄒㄧㄤ ㄐㄧㄠ"},
   {name:"橘子", emoji:"🍊", pinyin:"jú zi", zhuyin:"ㄐㄩˊ ㄗ"},
-  {name:"火龍果", emoji:"🐉火龍果", pinyin:"huǒ lóng guǒ", zhuyin:"ㄏㄨㄛˇ ㄌㄨㄥˊ ㄍㄨㄛˇ"}
+  {name:"火龍果", emoji:"🐉", pinyin:"huǒ lóng guǒ", zhuyin:"ㄏㄨㄛˇ ㄌㄨㄥˊ ㄍㄨㄛˇ"}
 ];
 
 let currentFruit;
@@ -144,7 +144,7 @@ let selectedCount = 0;
 let completed = 0;
 let gameStarted = false;
 
-const numberMap = {1:"一",2:"兩",3:"三"};
+const numberMap = {1:"一",2:"兩",3:"三",4:"四"};
 
 function startGame(){
   gameStarted = true;
@@ -177,11 +177,11 @@ function newOrder(){
 }
 
 function numberMapPinyin(n){
-  return {1:"yi",2:"liǎngˇ",3:"sān"}[n];
+  return {1:"yi",2:"liǎngˇ",3:"sān",4:"si"}[n];
 }
   
 function numberMapZhuyin(n){
-  return {1:"ㄧ",2:"ㄌㄧㄤˇ",3:"ㄙㄢ"}[n];
+  return {1:"ㄧ",2:"ㄌㄧㄤˇ",3:"ㄙㄢ",4:"ㄙˋ"}[n];
 }
 
 function createFruits(){
