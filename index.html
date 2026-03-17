@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>水果店學中文遊戲</title>
+<style>
+body {
+  font-family: "Arial", sans-serif;
+  background: #fff7f0;
+  text-align: center;
+}
+
+h1 {
+  color: #ff7f50;
+}
+
+.container {
+  margin-top: 20px;
+}
+
+.fruits {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.fruit {
+  font-size: 50px;
+  cursor: pointer;
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.fruit:hover {
+  transform: scale(1.1);
+}
+
+#selection {
+  margin-top: 20px;
+  font-size: 24px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #ffb6c1;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ff8fab;
+}
+
+.popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  width: 300px;
+}
+
+.hidden {
+  display: none;
+}
+
+#angry {
+  font-size: 50px;
+  margin-top: 10px;
+}
+
+.modal {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.5);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-content {
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  font-size:30px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🍎 水果店學中文 🍌</h1>
+
+<div class="container">
+
+  <div id="orderPopup" class="popup">
+    <p id="orderText"></p>
+  </div>
+
+  <div id="angry" class="hidden">😡</div>
+
+  <div class="fruits" id="fruitContainer"></div>
+
+  <div id="selection">目前選擇：無</div>
+  <button onclick="clearSelection()">清除</button>
+
+</div>
+
+<div id="endModal" class="modal hidden">
+  <div class="modal-content">
+    🎉 水果大師 🎉
+  </div>
+</div>
+
+<script>
+const fruits = [
+  {name:"芒果", emoji:"🥭", pinyin:"máng guǒ", zhuyin:"ㄇㄤˊ ㄍㄨㄛˇ"},
+  {name:"草莓", emoji:"🍓", pinyin:"cǎo méi", zhuyin:"ㄘㄠˇ ㄇㄟˊ"},
+  {name:"蘋果", emoji:"🍎", pinyin:"píng guǒ", zhuyin:"ㄆㄧㄥˊ ㄍㄨㄛˇ"},
+  {name:"香蕉", emoji:"🍌", pinyin:"xiāng jiāo", zhuyin:"ㄒㄧㄤ ㄐㄧㄠ"},
+  {name:"橘子", emoji:"🍊", pinyin:"jú zi", zhuyin:"ㄐㄩˊ ㄗ"},
+  {name:"火龍果", emoji:"🐉火龍果", pinyin:"huǒ lóng guǒ", zhuyin:"ㄏㄨㄛˇ ㄌㄨㄥˊ ㄍㄨㄛˇ"}
+];
+
+let currentFruit;
+let targetCount;
+let selectedCount = 0;
+let completed = 0;
+
+const numberMap = {
+ 1:"一",2:"兩",3:"三"
+};
+
+function newOrder(){
+  if(completed >= 10){
+    document.getElementById("endModal").classList.remove("hidden");
+    return;
+  }
+
+  selectedCount = 0;
+
+  currentFruit = fruits[Math.floor(Math.random()*fruits.length)];
+  targetCount = Math.floor(Math.random()*3)+1;
+
+  const sentence = `我想要${numberMap[targetCount]}個 (${targetCount})${currentFruit.name}
+  (${ "wǒ xiǎng yào " + currentFruit.pinyin })
+  (${ "ㄨㄛˇ ㄒㄧㄤˇ ㄧㄠˋ " + numberMapZhuyin(targetCount) + " ㄍㄜˋ " + currentFruit.zhuyin })`;
+
+  document.getElementById("orderText").innerText = sentence;
+
+  updateSelection();
+}
+
+function numberMapZhuyin(n){
+  return {
+   1:"ㄧ",2:"ㄌㄧㄤˇ",3:"ㄙㄢ"
+  }[n];
+}
+
+function createFruits(){
+  const container = document.getElementById("fruitContainer");
+  fruits.forEach(f=>{
+    const div = document.createElement("div");
+    div.className="fruit";
+    div.innerText = f.emoji;
+    div.onclick = ()=>selectFruit(f);
+    container.appendChild(div);
+  });
+}
+
+function selectFruit(f){
+  if(f.name !== currentFruit.name){
+    showAngry();
+    return;
+  }
+
+  selectedCount++;
+  updateSelection();
+
+  if(selectedCount === targetCount){
+    completed++;
+    setTimeout(()=>{
+      alert("謝謝你！😊");
+      newOrder();
+    },300);
+  }
+}
+
+function updateSelection(){
+  if(selectedCount === 0){
+    document.getElementById("selection").innerText = "目前選擇：無";
+  }else{
+    document.getElementById("selection").innerText =
+      `目前選擇：${currentFruit.emoji} x ${selectedCount}`;
+  }
+}
+
+function clearSelection(){
+  selectedCount = 0;
+  updateSelection();
+}
+
+function showAngry(){
+  const angry = document.getElementById("angry");
+  angry.classList.remove("hidden");
+  setTimeout(()=>{
+    angry.classList.add("hidden");
+  },1000);
+}
+
+createFruits();
+newOrder();
+</script>
+
+</body>
+</html>
