@@ -16,8 +16,6 @@ h1 {
 
 .container {
   margin-top: 20px;
-  <div id="lives"></div>
-  <div id="timer" style="position:fixed; bottom:20px; right:20px; font-size:24px;"></div>
 }
 
 .fruits {
@@ -117,6 +115,8 @@ button:hover {
 <button onclick="startGame()">開始遊戲</button>
 
 <div class="container hidden" id="gameArea">
+  <div id="lives"></div>
+  <div id="timer" style="position:fixed; bottom:20px; right:20px; font-size:24px;"></div>
 
   <div id="orderPopup" class="popup">
     <p id="orderText"></p>
@@ -139,10 +139,7 @@ button:hover {
 </div>
 -->
 <script>
-let difficulty = "easy";
-let lives = 3;
-let timer;
-let timeLeft = 5;
+
 const fruits = [
   {name:"芒果", emoji:"🥭", pinyin:"máng guǒ", zhuyin:"ㄇㄤˊ ㄍㄨㄛˇ"},
   {name:"草莓", emoji:"🍓", pinyin:"cǎo méi", zhuyin:"ㄘㄠˇ ㄇㄟˊ"},
@@ -157,6 +154,10 @@ let targetCount;
 let selectedCount = 0;
 let completed = 0;
 let gameStarted = false;
+let difficulty = "easy";
+let lives = 3;
+let timer;
+let timeLeft = 5;
 
 const numberMap = {1:"一",2:"兩",3:"三",4:"四"};
 
@@ -191,7 +192,7 @@ function newOrder(){
 (wǒ xiǎng yào ${numberMapPinyin(targetCount)} ge ${currentFruit.pinyin})
 (ㄨㄛˇ ㄒㄧㄤˇ ㄧㄠˋ ${numberMapZhuyin(targetCount)} ㄍㄜˋ ${currentFruit.zhuyin})`;
   }
-  else{
+  else {
     sentence = `我想要 ${numberMap[targetCount]}個 (${targetCount}) ${currentFruit.name}。`
   }
   document.getElementById("orderText").innerText = sentence;
