@@ -147,6 +147,12 @@ button:hover {
 
 </div>
 
+<div id="endModal" class="modal hidden">
+  <div class="modal-content">
+    🎉 水果大師 🎉
+  </div>
+</div>
+
 <script>
 
 const fruits = [
@@ -188,6 +194,10 @@ function startGame(){
 
 function newOrder(){
   /*if(!gameStarted) return; */
+  if(completed >= 10){
+    document.getElementById("endModal").classList.remove("hidden");
+    return;
+  }
   document.getElementById("priceArea").classList.add("hidden");
 
   selectedCount = 0;
