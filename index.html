@@ -57,7 +57,6 @@ h1 {
 #selection {
   margin-top: 20px;
   font-size: 24px;
-  
 }
 
 button {
@@ -151,13 +150,12 @@ button:hover {
 <script>
 
 const fruits = [
-  {name:"芒果", emoji:"🥭", pinyin:"máng guǒ", zhuyin:"ㄇㄤˊ ㄍㄨㄛˇ", price:60},
-  {name:"草莓", emoji:"🍓", pinyin:"cǎo méi", zhuyin:"ㄘㄠˇ ㄇㄟˊ", price:10},
-  {name:"蘋果", emoji:"🍎", pinyin:"píng guǒ", zhuyin:"ㄆㄧㄥˊ ㄍㄨㄛˇ", price:50},
-  {name:"香蕉", emoji:"🍌", pinyin:"xiāng jiāo", zhuyin:"ㄒㄧㄤ ㄐㄧㄠ", price:20},
-  {name:"橘子", emoji:"🍊", pinyin:"jú zi", zhuyin:"ㄐㄩˊ ㄗ", price:15},
-  {name:"西瓜", emoji:"🍉", pinyin:"xī guā", zhuyin:"ㄒㄧ ㄍㄨㄚ", price:100}
-  },
+	{name:"芒果", emoji:"🥭", pinyin:"máng guǒ", zhuyin:"ㄇㄤˊ ㄍㄨㄛˇ", price:60},
+	{name:"草莓", emoji:"🍓", pinyin:"cǎo méi", zhuyin:"ㄘㄠˇ ㄇㄟˊ", price:10},
+	{name:"蘋果", emoji:"🍎", pinyin:"píng guǒ", zhuyin:"ㄆㄧㄥˊ ㄍㄨㄛˇ", price:50},
+	{name:"香蕉", emoji:"🍌", pinyin:"xiāng jiāo", zhuyin:"ㄒㄧㄤ ㄐㄧㄠ", price:20},
+	{name:"橘子", emoji:"🍊", pinyin:"jú zi", zhuyin:"ㄐㄩˊ ㄗ", price:15},
+	{name:"西瓜", emoji:"🍉", pinyin:"xī guā", zhuyin:"ㄒㄧ ㄍㄨㄚ", price:100}
 ];
 
 let currentFruit;
@@ -189,8 +187,7 @@ function startGame(){
 }
 
 function newOrder(){
-  if(!gameStarted) return;
-  
+  /*if(!gameStarted) return; */
   document.getElementById("priceArea").classList.add("hidden");
 
   selectedCount = 0;
@@ -205,28 +202,25 @@ function newOrder(){
 	  (ㄨㄛˇ ㄒㄧㄤˇ ㄧㄠˋ ${numberMapZhuyin(targetCount)} ㄍㄜˋ ${currentFruit.zhuyin})`;
   }
   else {
-    sentence = `我想要 ${numberMap[targetCount]}個 (${targetCount}) ${currentFruit.name}。`
+    sentence = `我想要 ${numberMap[targetCount]}個 (${targetCount}) ${currentFruit.name}。`;
   }
-  document.getElementById("orderText").innerText = sentence;
-  updateSelection();
 	
-  if(difficulty === "hard"){
-    startTimer();
-  } else {
-    stopTimer();
-  }
-}
-function numberMapPinyin(n){
+  document.getElementById("orderText").innerText = sentence;
+
   updateSelection();
+}
+
+function numberMapPinyin(n){
   return {1:"yī",2:"liǎng",3:"sān",4:"sì"}[n];
 }
-	
+
 function numberMapZhuyin(n){
   return {1:"ㄧ",2:"ㄌㄧㄤˇ",3:"ㄙㄢ",4:"ㄙˋ"}[n];
 }
 
 function createFruits(){
   const container = document.getElementById("fruitContainer");
+
   fruits.forEach(f=>{
     const div = document.createElement("div");
     div.className="fruit";
@@ -245,9 +239,7 @@ function createFruits(){
 function selectFruit(f){
   if(f.name !== currentFruit.name){
     showAngry();
-    if(difficulty === "hard"){
-      loseLife();
-    }
+    if(difficulty === "hard") loseLife();
     return;
   }
 
